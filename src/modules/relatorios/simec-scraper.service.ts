@@ -123,6 +123,23 @@ export const scrapeSimecTermos = async (
     const lowerHtml = htmlBruto.toLowerCase();
     console.log(`[simec-scraper] Resposta: ${postRes.status} (${htmlBruto.length} bytes)`);
 
+    const cloudflareChallengeDetected =
+      lowerHtml.includes("just a moment") ||
+      lowerHtml.includes("challenges.cloudflare.com") ||
+      lowerHtml.includes("__cf_chl_") ||
+      lowerHtml.includes("cf-ray");
+
+    if (cloudflareChallengeDetected) {
+      console.warn("[simec-scraper] BLOQUEIO: desafio Cloudflare detectado.");
+      return {
+        sucesso: false,
+        mensagem:
+          "O portal do SIMEC bloqueou a automacao com desafio anti-bot (Cloudflare). Tente novamente mais tarde ou use uma rede/IP permitido pelo portal.",
+        dados: [],
+        html_bruto: htmlBruto.substring(0, 5000)
+      };
+    }
+
     if (lowerHtml.includes("acesso negado") || lowerHtml.includes("login") || postRes.status === 403) {
       console.warn("[simec-scraper] SESSAO: Acesso negado ou sessao expirada.");
       return {
