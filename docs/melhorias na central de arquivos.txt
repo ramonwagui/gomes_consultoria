@@ -1,0 +1,251 @@
+Boa pergunta — links públicos de upload são um dos vetores mais explorados em sistemas de gestão documental porque combinam acesso sem autenticação com entrada de arquivos arbitrários. Veja um plano em camadas:
+
+## Camada 1 — Controle do link em si
+
+O link precisa ser resistente a adivinhação, enumeração e reutilização indevida.
+
+```typescript
+import { randomBytes } from 'crypto';
+
+// Token criptograficamente seguro — nunca use uuid v4 simples para isso
+function generateUploadToken(): string {
+  return randomBytes(32).toString('base64url'); // 256 bits de entropia
+}
+
+// Estrutura recomendada no banco
+interface PublicUploadLink {
+  token: string;           // índice único, não sequencial
+  instrumentoId: string;
+  checklistItemId: string;
+  criadoPor: string;       // userId do gestor que gerou
+  expiresAt: Date;         // obrigatório — nunca sem expiração
+  maxUsos: number;         // ex: 3 uploads permitidos
+  usosAtuais: number;
+  allowedExtensions: string[];  // lista branca por link
+  maxFileSizeBytes: number;
+  ativo: boolean;
+  desativadoEm?: Date;
+  desativadoPor?: string;
+}
+```
+
+Regras mínimas de validade antes de aceitar qualquer upload:
+
+```typescript
+async function validateUploadLink(token: string, req: Request) {
+  const link = await db.publicUploadLink.findUnique({ where: { token } });
+
+  if (!link) throw new UploadError('LINK_NOT_FOUND', 404);
+  if (!link.ativo) throw new UploadError('LINK_INACTIVE', 410);  // 410 Gone
+  if (link.expiresAt < new Date()) throw new UploadError('LINK_EXPIRED', 410);
+  if (link.usosAtuais >= link.maxUsos) throw new UploadError('LINK_EXHAUSTED', 410);
+
+  return link;
+}
+```
+
+---
+
+## Camada 2 — Validação do arquivo antes de salvar qualquer coisa
+
+A validação por extensão é necessária mas insuficiente — a extensão é trivialmente falsificável. Valide o **magic bytes** (assinatura binária real do arquivo):
+
+```typescript
+import fileType from 'file-type'; // lê os primeiros bytes do buffer
+
+const ALLOWED_TYPES: Record<string, string[]> = {
+  'application/pdf': ['.pdf'],
+  'image/jpeg': ['.jpg', '.jpeg'],
+  'image/png': ['.png'],
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document': ['.docx'],
+};
+
+async function validateFileSignature(buffer: Buffer, declaredExtension: string) {
+  const detected = await fileType.fromBuffer(buffer);
+
+  if (!detected) {
+    throw new UploadError('UNKNOWN_FILE_TYPE', 400);
+  }
+
+  const allowedExtensions = ALLOWED_TYPES[detected.mime];
+  if (!allowedExtensions) {
+    throw new UploadError('FILE_TYPE_NOT_ALLOWED', 400);
+  }
+
+  // Extensão declarada bate com o tipo real?
+  if (!allowedExtensions.includes(declaredExtension.toLowerCase())) {
+    throw new UploadError('EXTENSION_MISMATCH', 400); // PDF renomeado como .docx
+  }
+}
+```
+
+Limite de tamanho **antes** de ler o corpo completo, no middleware do Multer:
+
+```typescript
+const uploadMiddleware = multer({
+  storage: multer.memoryStorage(),
+  limits: {
+    fileSize: 10 * 1024 * 1024, // 10MB — ajuste por tipo de link
+    files: 1,                    // um arquivo por requisição
+  },
+  fileFilter: (req, file, cb) => {
+    // Bloqueia nomes com path traversal
+    if (file.originalname.includes('..') || file.originalname.includes('/')) {
+      return cb(new Error('INVALID_FILENAME'));
+    }
+    cb(null, true);
+  },
+});
+```
+
+---
+
+## Camada 3 — Quarentena antes do armazenamento final
+
+Nunca salve o arquivo diretamente na pasta/bucket de produção. Use um fluxo de quarentena:
+
+```
+Upload recebido
+      │
+      ▼
+[bucket: quarentena/]  ←── arquivo fica aqui primeiro
+      │
+      ▼
+[varredura antivírus]  ←── ClamAV (self-hosted) ou API externa
+      │
+      ├── LIMPO ──► move para [bucket: documentos/] + registra no banco
+      │
+      └── INFECTADO ──► deleta + alerta gestor + registra evento de segurança
+```
+
+Integração com ClamAV via `clamscan` (open source, pode rodar no próprio servidor):
+
+```typescript
+import NodeClam from 'clamscan';
+
+const clam = await new NodeClam().init({
+  clamdscan: { active: true, host: 'localhost', port: 3310 },
+});
+
+async function scanBuffer(buffer: Buffer): Promise<void> {
+  const { isInfected, viruses } = await clam.scanBuffer(buffer);
+
+  if (isInfected) {
+    await logSecurityEvent('MALWARE_DETECTED', { viruses });
+    throw new UploadError('FILE_INFECTED', 400);
+  }
+}
+```
+
+Se ClamAV não for viável no seu ambiente Railway, considere a API do VirusTotal para documentos que não sejam confidenciais, ou o serviço da Cloudflare (Gateway + Workers) se já usa R2.
+
+---
+
+## Camada 4 — Rate limiting e proteção contra abuso
+
+```typescript
+import rateLimit from 'express-rate-limit';
+
+// Por IP — previne varredura de tokens
+const publicUploadLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 10,                          // 10 tentativas por IP a cada 15min
+  standardHeaders: true,
+  keyGenerator: (req) => req.ip,
+  handler: (req, res) => {
+    logSecurityEvent('RATE_LIMIT_HIT_PUBLIC_UPLOAD', { ip: req.ip });
+    res.status(429).json({ error: 'Muitas tentativas. Tente mais tarde.' });
+  },
+});
+
+// Por token — previne uso paralelo agressivo do mesmo link
+const perTokenLimiter = rateLimit({
+  windowMs: 60 * 1000,
+  max: 3,
+  keyGenerator: (req) => req.params.token,
+});
+
+app.post('/upload/:token',
+  publicUploadLimiter,
+  perTokenLimiter,
+  uploadMiddleware,
+  handlePublicUpload
+);
+```
+
+---
+
+## Camada 5 — Registro de evidências no upload
+
+Para documentos públicos de convênios, o registro de quem enviou é tão importante quanto o arquivo em si. Capture e persista:
+
+```typescript
+interface UploadEvidencia {
+  linkToken: string;
+  arquivoId: string;
+  // Dados do remetente (informados + verificáveis)
+  nomeInformado: string;
+  cpfInformado: string;       // valide formato antes de salvar
+  emailInformado: string;
+  // Dados técnicos (não falsificáveis pelo remetente)
+  ipOrigem: string;
+  userAgent: string;
+  timestampRecebimento: Date;
+  hashArquivo: string;        // SHA-256 do buffer — prova de integridade
+  tamanhoBytes: number;
+  mimeDetectado: string;
+}
+
+// Hash do arquivo para prova de integridade
+import { createHash } from 'crypto';
+
+function hashBuffer(buffer: Buffer): string {
+  return createHash('sha256').update(buffer).digest('hex');
+}
+```
+
+O hash SHA-256 é especialmente importante: se houver disputa sobre o conteúdo de um documento enviado por uma prefeitura, você consegue provar que o arquivo não foi alterado após o recebimento.
+
+---
+
+## Camada 6 — Notificação e expiração proativa
+
+```typescript
+// Após upload bem-sucedido
+async function notifyGestorOnUpload(link: PublicUploadLink, evidencia: UploadEvidencia) {
+  await sendEmail({
+    to: link.gestorEmail,
+    subject: `Documento recebido via link público — ${link.instrumentoNumero}`,
+    body: `
+      Um documento foi enviado por ${evidencia.nomeInformado}.
+      IP: ${evidencia.ipOrigem}
+      Hash: ${evidencia.hashArquivo}
+      Acesse o sistema para revisar e aceitar ou rejeitar o documento.
+    `,
+  });
+}
+
+// Job periódico — desativa links expirados que ainda estão ativos
+async function desativarLinksExpirados() {
+  await db.publicUploadLink.updateMany({
+    where: { expiresAt: { lt: new Date() }, ativo: true },
+    data: { ativo: false, desativadoEm: new Date(), desativadoPor: 'system' },
+  });
+}
+```
+
+---
+
+## Resumo das camadas em ordem de prioridade
+
+| Prioridade | Controle | Esforço |
+|---|---|---|
+| 🔴 Imediato | Token com 256 bits + expiração obrigatória + max usos | Baixo |
+| 🔴 Imediato | Validação de magic bytes (não só extensão) | Baixo |
+| 🔴 Imediato | Rate limiting por IP e por token | Baixo |
+| 🟡 Curto prazo | Quarentena + ClamAV antes do bucket final | Médio |
+| 🟡 Curto prazo | Hash SHA-256 + registro de evidências completo | Baixo |
+| 🟢 Médio prazo | Notificação automática ao gestor por upload | Médio |
+| 🟢 Médio prazo | Job de expiração proativa de links | Baixo |
+
+Os três primeiros você consegue implementar em um sprint sem dependências externas. O ClamAV é o que exige mais trabalho de infraestrutura, mas é o que fecha o risco mais grave — um PDF com macro maliciosa sendo salvo direto no bucket de produção.

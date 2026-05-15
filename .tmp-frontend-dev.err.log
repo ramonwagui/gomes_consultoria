@@ -1,0 +1,96 @@
+[2m18:23:45[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/tickets/assignable-users[39m
+Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1705:16)
+[2m18:23:46[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/pagamentos/instrumentos[39m
+Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1705:16)
+[2m18:23:46[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/pagamentos[39m
+Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1705:16)
+[BABEL] Note: The code generator has deoptimised the styling of C:\Users\ramon\Documents\gestconv360\web\src\App.tsx as it exceeds the max of 500KB.
+[2m18:23:52[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /health[39m
+Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1705:16)
+[2m18:23:52[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/instrumentos?ativo=true&sync_repasses_desembolsos=false[39m
+Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1705:16)
+[2m18:23:52[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/instrumentos?ativo=true&sync_repasses_desembolsos=false[39m
+Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1705:16)
+[2m18:23:52[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/instrumentos?ativo=false&sync_repasses_desembolsos=false[39m
+Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1705:16)
+[2m18:23:52[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/instrumentos/alerts/deadlines?limite_dias=30[39m
+Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1705:16)
+[2m18:23:52[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/auditoria?limite=150[39m
+Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1705:16)
+[2m18:23:52[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/tickets[39m
+Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1705:16)
+[2m18:23:52[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/usuarios/me[39m
+Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1705:16)
+[2m18:23:52[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /health[39m
+Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1705:16)
+[2m18:23:52[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/instrumentos?ativo=true&sync_repasses_desembolsos=false[39m
+Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1705:16)
+[2m18:23:52[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/instrumentos?ativo=true&sync_repasses_desembolsos=false[39m
+Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1705:16)
+[2m18:23:52[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/instrumentos?ativo=false&sync_repasses_desembolsos=false[39m
+Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1705:16)
+[2m18:23:52[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/instrumentos/alerts/deadlines?limite_dias=30[39m
+Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1705:16)
+[2m18:23:52[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/auditoria?limite=150[39m
+Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1705:16)
+[2m18:23:52[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/tickets[39m
+Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1705:16)
+[2m18:23:52[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/usuarios/me[39m
+Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1705:16)
+[2m18:23:52[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/proponentes[39m
+Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1705:16)
+[2m18:23:52[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/proponentes[39m
+Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1705:16)
+[2m18:23:52[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/usuarios[39m
+Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1705:16)
+[2m18:23:52[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/usuarios[39m
+Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1705:16)
+[2m18:23:52[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/tickets/assignable-users[39m
+Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1705:16)
+[2m18:23:52[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/tickets/assignable-users[39m
+Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1705:16)
+[2m18:23:52[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/pagamentos/instrumentos[39m
+Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1705:16)
+[2m18:23:52[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/pagamentos[39m
+Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1705:16)
+[2m18:23:52[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/pagamentos/instrumentos[39m
+Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1705:16)
+[2m18:23:52[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/pagamentos[39m
+Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1705:16)
+[BABEL] Note: The code generator has deoptimised the styling of C:\Users\ramon\Documents\gestconv360\web\src\App.tsx as it exceeds the max of 500KB.
+[BABEL] Note: The code generator has deoptimised the styling of C:\Users\ramon\Documents\gestconv360\web\src\App.tsx as it exceeds the max of 500KB.
+[BABEL] Note: The code generator has deoptimised the styling of C:\Users\ramon\Documents\gestconv360\web\src\App.tsx as it exceeds the max of 500KB.
+[BABEL] Note: The code generator has deoptimised the styling of C:\Users\ramon\Documents\gestconv360\web\src\App.tsx as it exceeds the max of 500KB.
+[BABEL] Note: The code generator has deoptimised the styling of C:\Users\ramon\Documents\gestconv360\web\src\App.tsx as it exceeds the max of 500KB.
+[BABEL] Note: The code generator has deoptimised the styling of C:\Users\ramon\Documents\gestconv360\web\src\App.tsx as it exceeds the max of 500KB.
+[BABEL] Note: The code generator has deoptimised the styling of C:\Users\ramon\Documents\gestconv360\web\src\App.tsx as it exceeds the max of 500KB.
+[BABEL] Note: The code generator has deoptimised the styling of C:\Users\ramon\Documents\gestconv360\web\src\App.tsx as it exceeds the max of 500KB.

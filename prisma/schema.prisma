@@ -1,0 +1,860 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id                     Int                               @id @default(autoincrement())
+  nome                   String
+  email                  String                            @unique
+  passwordHash           String
+  role                   UserRole                          @default(CONSULTA)
+  createdAt              DateTime                          @default(now())
+  updatedAt              DateTime                          @updatedAt
+  avatarMimeType         String?
+  avatarPath             String?
+  auditLogs              AuditLog[]
+  checklistExternalLinks InstrumentChecklistExternalLink[] @relation("ChecklistExternalLinkCreatedBy")
+  stageFollowUps         InstrumentStageFollowUp[]
+  ticketsCriados         Ticket[]                          @relation("TicketCreatedBy")
+  ticketsResponsavel     Ticket[]                          @relation("TicketAssignedTo")
+  ticketComments         TicketComment[]
+assistenteChatSessions AssistenteChatSession[]           @relation("AssistenteChatSessionUser")
+  assistenteSearchLogs   AssistenteSearchLog[]
+  documentTemplateCreatedBy DocumentTemplate[]            @relation("DocumentTemplateCreatedBy")
+  documentTemplateUpdatedBy DocumentTemplate[]            @relation("DocumentTemplateUpdatedBy")
+  documentTemplateVersionCreatedBy DocumentTemplateVersion[] @relation("DocumentTemplateVersionCreatedBy")
+  documentoLogCreatedBy  DocumentoLog[]                    @relation("DocumentoLogCreatedBy")
+  documentosAreaUploaded  DocumentoArea[]                   @relation("DocumentoAreaUploadedBy")
+  documentosAreaAuditoria DocumentoAuditLog[]                @relation("DocumentoAuditLogUser")
+  documentoExternalRequests DocumentoExternalRequest[]       @relation("DocumentoExternalRequestCreatedBy")
+  convenetePermissions       UserConvenetePermission[]
+  paymentRequests            PaymentRequest[]              @relation("PaymentRequestRequestedBy")
+  demoConvenetes             Convenete[]                   @relation("DemoWorkspaceConvenetes")
+  demoInstruments            InstrumentProposal[]          @relation("DemoWorkspaceInstruments")
+  demoTickets                Ticket[]                      @relation("DemoWorkspaceTickets")
+}
+
+model InstrumentProposal {
+  id                         Int                             @id @default(autoincrement())
+  proposta                   String
+  instrumento                String
+  objeto                     String
+  valorRepasse               Decimal
+  valorContrapartida         Decimal
+  dataCadastro               DateTime
+  dataAssinatura             DateTime?
+  vigenciaInicio             DateTime
+  vigenciaFim                DateTime
+  dataPrestacaoContas        DateTime?
+  dataDou                    DateTime?
+  concedente                 String
+  fluxoTipo                  InstrumentFlowType              @default(OBRA)
+  status                     InstrumentStatus                @default(EM_ELABORACAO)
+  responsavel                String?
+  orgaoExecutor              String?
+  empresaVencedora           String?
+  cnpjVencedora              String?
+  valorVencedor              Decimal?
+  observacoes                String?
+  conveneteId                Int?
+  demoOwnerUserId            Int?
+  ativo                      Boolean                         @default(true)
+  createdAt                  DateTime                        @default(now())
+  updatedAt                  DateTime                        @updatedAt
+  valorJaRepassado           Decimal                         @default(0)
+  dataRepasse1               DateTime?
+  dataRepasse2               DateTime?
+  contaBancaria              String?
+  agencia                    String?
+  banco                      String?
+  conta                      String?
+  auditLogs                  AuditLog[]
+  checklistItems             InstrumentChecklistItem[]
+  measurementBulletins       InstrumentMeasurementBulletin[]
+  convenete                  Convenete?                      @relation("ConveneteInstrumentos", fields: [conveneteId], references: [id])
+  demoOwnerUser              User?                           @relation("DemoWorkspaceInstruments", fields: [demoOwnerUserId], references: [id])
+  repasses                   InstrumentRepasse[]
+  solicitacoesCaixa          InstrumentSolicitacaoCaixa[]
+  stageFollowUps             InstrumentStageFollowUp[]
+workProgress               InstrumentWorkProgress?
+  tickets                    Ticket[]
+  paymentRequests            PaymentRequest[]
+  documentoLogs              DocumentoLog[]
+  documentosArea             DocumentoArea[]
+  transferenciaEspecialFinanceiro TransferenciaEspecialFinanceiro?
+
+  percentualFisicoMedicao      Decimal?
+  percentualFinanceiroMedicao  Decimal?
+  statusMedicao                String?
+  dataUltimaAtualizacaoMedicao DateTime?
+
+  finalidade                  String?
+  detalhamentoObjeto           String?
+  saldoContaCorrente           Decimal?
+
+  @@index([concedente])
+  @@index([status])
+  @@index([ativo])
+  @@index([vigenciaFim])
+  @@index([conveneteId])
+  @@index([demoOwnerUserId])
+  @@index([proposta])
+  @@index([instrumento])
+}
+
+model TransferenciaEspecialFinanceiro {
+  id                          Int                @id @default(autoincrement())
+  instrumentId                Int                @unique
+  pagoDetectado               Boolean            @default(false)
+  dataPrimeiroPagamento       DateTime?
+  dataUltimoPagamento         DateTime?
+  valorPagoDetectado          Decimal            @default(0)
+  quantidadeEmpenhos          Int                @default(0)
+  quantidadeDocumentosHabeis  Int                @default(0)
+  quantidadeOrdensPagamento   Int                @default(0)
+  documentoHabilPrincipal     String?
+  ordemPagamentoPrincipal     String?
+  ordemBancariaPrincipal      String?
+  situacaoPagamento           String?
+  dataUltimaConsulta          DateTime           @default(now())
+  payloadResumo               Json?
+  createdAt                   DateTime           @default(now())
+  updatedAt                   DateTime           @updatedAt
+  instrument                  InstrumentProposal @relation(fields: [instrumentId], references: [id], onDelete: Cascade)
+
+  @@index([pagoDetectado])
+  @@index([dataUltimoPagamento])
+}
+
+model Ticket {
+  id                    Int                    @id @default(autoincrement())
+  codigo                String                 @unique
+  titulo                String
+  descricao             String?
+  status                TicketStatus           @default(ABERTO)
+  prioridade            TicketPriority         @default(MEDIA)
+  origem                TicketSource           @default(MANUAL)
+  instrumentoInformado  String?
+  instrumentoEncontrado Boolean                @default(true)
+  prazoAlvo             DateTime?
+  resolvidoEm           DateTime?
+  motivoResolucao       String?
+  instrumentId          Int?
+  responsavelUserId     Int?
+  createdByUserId       Int
+  demoOwnerUserId       Int?
+  createdAt             DateTime               @default(now())
+  updatedAt             DateTime               @updatedAt
+  createdByUser         User                   @relation("TicketCreatedBy", fields: [createdByUserId], references: [id])
+  demoOwnerUser         User?                  @relation("DemoWorkspaceTickets", fields: [demoOwnerUserId], references: [id])
+  responsavelUser       User?                  @relation("TicketAssignedTo", fields: [responsavelUserId], references: [id])
+  instrument            InstrumentProposal?    @relation(fields: [instrumentId], references: [id])
+  checklistItems        TicketChecklistItem[]
+  comments              TicketComment[]
+  emailIngestions       TicketEmailIngestion[]
+
+  @@index([status])
+  @@index([origem])
+  @@index([instrumentId])
+  @@index([responsavelUserId])
+  @@index([createdByUserId])
+  @@index([demoOwnerUserId])
+  @@index([createdAt])
+}
+
+model TicketEmailIngestion {
+  id                  Int                        @id @default(autoincrement())
+  gmailMessageId      String                     @unique
+  gmailThreadId       String?
+  fromEmail           String
+  subject             String?
+  receivedAt          DateTime?
+  statusProcessamento TicketEmailIngestionStatus
+  erro                String?
+  payloadRaw          String?
+  ticketId            Int?
+  createdAt           DateTime                   @default(now())
+  updatedAt           DateTime                   @updatedAt
+  ticket              Ticket?                    @relation(fields: [ticketId], references: [id])
+
+  @@index([statusProcessamento, createdAt])
+  @@index([fromEmail, createdAt])
+  @@index([ticketId])
+}
+
+model TicketComment {
+  id        Int      @id @default(autoincrement())
+  ticketId  Int
+  userId    Int
+  mensagem  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id])
+  ticket    Ticket   @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+
+  @@index([ticketId, createdAt])
+  @@index([userId])
+}
+
+model InstrumentChecklistItem {
+  id                  Int                               @id @default(autoincrement())
+  instrumentId        Int
+  etapa               InstrumentWorkflowStage           @default(PROPOSTA)
+  status              ChecklistItemStatus               @default(NAO_INICIADO)
+  nomeDocumento       String
+  obrigatorio         Boolean                           @default(true)
+  concluido           Boolean                           @default(false)
+  ativo               Boolean                           @default(true)
+  observacao          String?
+  ordem               Int                               @default(0)
+  arquivoPath         String?
+  arquivoNomeOriginal String?
+  arquivoMimeType     String?
+  arquivoTamanho      Int?
+  uploadedAt          DateTime?
+  createdAt           DateTime                          @default(now())
+  updatedAt           DateTime                          @updatedAt
+  externalLinks       InstrumentChecklistExternalLink[]
+  instrument          InstrumentProposal                @relation(fields: [instrumentId], references: [id], onDelete: Cascade)
+
+  @@index([instrumentId, ordem])
+  @@index([instrumentId, etapa, ordem])
+  @@index([instrumentId, ativo])
+}
+
+model InstrumentRepasse {
+  id           Int                @id @default(autoincrement())
+  instrumentId Int
+  dataRepasse  DateTime
+  valorRepasse Decimal
+  createdAt    DateTime           @default(now())
+  updatedAt    DateTime           @updatedAt
+  instrument   InstrumentProposal @relation(fields: [instrumentId], references: [id], onDelete: Cascade)
+
+  @@index([instrumentId, dataRepasse])
+}
+
+model InstrumentChecklistExternalLink {
+  id              Int                               @id @default(autoincrement())
+  checklistItemId Int
+  token           String                            @unique
+  ativo           Boolean                           @default(true)
+  expiraEm        DateTime
+  createdByUserId Int?
+  createdByEmail  String
+  createdAt       DateTime                          @default(now())
+  updatedAt       DateTime                          @updatedAt
+  files           InstrumentChecklistExternalFile[]
+  createdByUser   User?                             @relation("ChecklistExternalLinkCreatedBy", fields: [createdByUserId], references: [id])
+  checklistItem   InstrumentChecklistItem           @relation(fields: [checklistItemId], references: [id], onDelete: Cascade)
+
+  @@index([checklistItemId, ativo])
+  @@index([token, ativo])
+  @@index([expiraEm])
+}
+
+model InstrumentChecklistExternalFile {
+  id                  Int                             @id @default(autoincrement())
+  externalLinkId      Int
+  nomeRemetente       String
+  arquivoPath         String
+  arquivoNomeOriginal String
+  arquivoMimeType     String?
+  arquivoTamanho      Int?
+  createdAt           DateTime                        @default(now())
+  updatedAt           DateTime                        @updatedAt
+  externalLink        InstrumentChecklistExternalLink @relation(fields: [externalLinkId], references: [id], onDelete: Cascade)
+
+  @@index([externalLinkId, createdAt])
+}
+
+model InstrumentWorkProgress {
+  id             Int                @id @default(autoincrement())
+  instrumentId   Int                @unique
+  percentualObra Decimal            @default(0)
+  createdAt      DateTime           @default(now())
+  updatedAt      DateTime           @updatedAt
+  instrument     InstrumentProposal @relation(fields: [instrumentId], references: [id], onDelete: Cascade)
+}
+
+model InstrumentMeasurementBulletin {
+  id                      Int                @id @default(autoincrement())
+  instrumentId            Int
+  dataBoletim             DateTime
+  valorMedicao            Decimal
+  percentualObraInformado Decimal?
+  observacao              String?
+  createdAt               DateTime           @default(now())
+  updatedAt               DateTime           @updatedAt
+  instrument              InstrumentProposal @relation(fields: [instrumentId], references: [id], onDelete: Cascade)
+
+  @@index([instrumentId, dataBoletim])
+}
+
+model InstrumentStageFollowUp {
+  id           Int                           @id @default(autoincrement())
+  instrumentId Int
+  etapa        InstrumentWorkflowStage
+  texto        String?
+  userId       Int?
+  userEmail    String
+  createdAt    DateTime                      @default(now())
+  updatedAt    DateTime                      @updatedAt
+  user         User?                         @relation(fields: [userId], references: [id])
+  instrument   InstrumentProposal            @relation(fields: [instrumentId], references: [id], onDelete: Cascade)
+  files        InstrumentStageFollowUpFile[]
+
+  @@index([instrumentId, etapa, createdAt])
+}
+
+model InstrumentStageFollowUpFile {
+  id                  Int                     @id @default(autoincrement())
+  followUpId          Int
+  arquivoPath         String
+  arquivoNomeOriginal String
+  arquivoMimeType     String?
+  arquivoTamanho      Int?
+  createdAt           DateTime                @default(now())
+  updatedAt           DateTime                @updatedAt
+  followUp            InstrumentStageFollowUp @relation(fields: [followUpId], references: [id], onDelete: Cascade)
+
+  @@index([followUpId, createdAt])
+}
+
+model AuditLog {
+  id            Int                @id @default(autoincrement())
+  instrumentId  Int
+  userId        Int?
+  userEmail     String
+  action        AuditAction
+  changedFields Json?
+  beforeData    Json?
+  afterData     Json?
+  createdAt     DateTime           @default(now())
+  user          User?              @relation(fields: [userId], references: [id])
+  instrument    InstrumentProposal @relation(fields: [instrumentId], references: [id])
+
+  @@index([instrumentId])
+  @@index([createdAt])
+}
+
+model Convenete {
+  id           Int                  @id @default(autoincrement())
+  nome         String
+  cnpj         String
+  endereco     String
+  numero       String?
+  complemento String?
+  bairro       String
+  cep          String?
+  uf           String
+  cidade       String
+  tel          String?
+  email        String?
+  gestorNome   String?
+  gestorCpf    String?
+  gestorRg     String?
+  gestorEndereco String?
+  gestorEmail  String?
+  demoOwnerUserId Int?
+  logoPath     String?
+  logoMimeType String?
+  timbrePath   String?
+  timbreMimeType String?
+  createdAt    DateTime             @default(now())
+  updatedAt    DateTime             @updatedAt
+  demoOwnerUser User?               @relation("DemoWorkspaceConvenetes", fields: [demoOwnerUserId], references: [id])
+  instrumentos InstrumentProposal[] @relation("ConveneteInstrumentos")
+  userPermissions UserConvenetePermission[]
+  paymentRequests PaymentRequest[]
+  documentosArea DocumentoArea[]
+
+  @@index([nome])
+  @@index([cnpj])
+  @@index([cidade])
+  @@index([demoOwnerUserId])
+}
+
+model UserConvenetePermission {
+  id          Int       @id @default(autoincrement())
+  userId      Int
+  conveneteId Int
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  convenete   Convenete @relation(fields: [conveneteId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, conveneteId])
+  @@index([userId])
+  @@index([conveneteId])
+}
+
+model PaymentRequest {
+  id             Int                  @id @default(autoincrement())
+  instrumentId   Int
+  conveneteId    Int
+  requestedById  Int
+  valorNota      Decimal
+  valorBm        Decimal
+  numeroBm       String
+  status         PaymentRequestStatus @default(SOLICITADO)
+  inssValor      Decimal              @default(0)
+  inssAliquota   Decimal              @default(0)
+  issValor       Decimal              @default(0)
+  issAliquota    Decimal              @default(0)
+  pisValor       Decimal              @default(0)
+  pisAliquota    Decimal              @default(0)
+  cofinsValor    Decimal              @default(0)
+  cofinsAliquota Decimal              @default(0)
+  irValor        Decimal              @default(0)
+  irAliquota     Decimal              @default(0)
+  notaFiscalPath String?
+  notaFiscalNomeOriginal String?
+  notaFiscalMimeType String?
+  empenhoPath    String?
+  empenhoNomeOriginal String?
+  empenhoMimeType String?
+  observacoes    String?
+  createdAt      DateTime             @default(now())
+  updatedAt      DateTime             @updatedAt
+  instrument     InstrumentProposal   @relation(fields: [instrumentId], references: [id], onDelete: Cascade)
+  convenete      Convenete            @relation(fields: [conveneteId], references: [id], onDelete: Cascade)
+  requestedBy    User                 @relation("PaymentRequestRequestedBy", fields: [requestedById], references: [id])
+
+  @@index([instrumentId, createdAt])
+  @@index([conveneteId, createdAt])
+  @@index([requestedById, createdAt])
+  @@index([status, createdAt])
+}
+
+model InstrumentSolicitacaoCaixa {
+  id                 Int                @id @default(autoincrement())
+  instrumentId       Int
+  ticketId           Int?
+  tipo               SolicitacaoCaixaTipo
+  descricao          String
+  origemEmail        String?
+  assuntoEmail       String?
+  createdAt          DateTime           @default(now())
+  instrument         InstrumentProposal @relation(fields: [instrumentId], references: [id], onDelete: Cascade)
+
+  @@index([ticketId])
+  @@index([instrumentId, createdAt])
+}
+
+model TicketChecklistItem {
+  id          Int       @id @default(autoincrement())
+  ticketId    Int
+  descricao   String
+  concluido   Boolean   @default(false)
+  concluidoEm DateTime?
+  ordem       Int       @default(0)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  ticket      Ticket    @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+
+  @@index([ticketId, ordem])
+}
+
+model AssistenteChatSession {
+  id                String                    @id @default(cuid())
+  userId            Int
+  titulo            String?
+  entidadeAtivaTipo String?
+  entidadeAtivaId   String?
+  municipioAtivo    String?
+  topicoAtivo       String?
+  resumoContexto    String?
+  createdAt         DateTime                  @default(now())
+  updatedAt         DateTime                  @updatedAt
+  user              User                      @relation("AssistenteChatSessionUser", fields: [userId], references: [id], onDelete: Cascade)
+  messages          AssistenteChatMessage[]
+  searchLogs        AssistenteSearchLog[]
+
+  @@index([userId, updatedAt])
+}
+
+model AssistenteChatMessage {
+  id         String               @id @default(cuid())
+  sessionId  String
+  role       AssistenteChatRole
+  content    String
+  tokens     Int?
+  createdAt  DateTime             @default(now())
+  session    AssistenteChatSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  @@index([sessionId, createdAt])
+}
+
+model AssistenteSearchLog {
+  id              String               @id @default(cuid())
+  sessionId       String
+  userId          Int
+  queryOriginal   String
+  queryNormalized String
+  filtersUsed     String?
+  topResultsJson  String?
+  createdAt       DateTime             @default(now())
+  session         AssistenteChatSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  user            User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([sessionId, createdAt])
+  @@index([userId, createdAt])
+}
+
+enum InstrumentStatus {
+  EM_ELABORACAO
+  ASSINADO
+  EM_EXECUCAO
+  VENCIDO
+  PRESTACAO_PENDENTE
+  CONCLUIDO
+}
+
+enum UserRole {
+  ADMIN
+  GESTOR
+  CONSULTA
+  FINANCEIRO
+  DEMONSTRACAO
+}
+
+enum PaymentRequestStatus {
+  SOLICITADO
+  EM_ANALISE
+  APROVADO
+  REJEITADO
+  PAGO
+}
+
+enum AuditAction {
+  CREATE
+  UPDATE
+  DEACTIVATE
+}
+
+enum InstrumentWorkflowStage {
+  PROPOSTA
+  REQUISITOS_CELEBRACAO
+  PROJETO_BASICO_TERMO_REFERENCIA
+  PROCESSO_EXECUCAO_LICITACAO
+  VERIFICACAO_PROCESSO_LICITATORIO
+  INSTRUMENTOS_CONTRATUAIS
+  ACOMPANHAMENTO_OBRA
+}
+
+enum InstrumentFlowType {
+  OBRA
+  AQUISICAO_EQUIPAMENTOS
+  EVENTOS
+}
+
+enum ChecklistItemStatus {
+  NAO_INICIADO
+  EM_ELABORACAO
+  CONCLUIDO
+  ACEITO
+}
+
+enum TicketStatus {
+  ABERTO
+  EM_ANDAMENTO
+  RESOLVIDO
+  CANCELADO
+}
+
+enum TicketSource {
+  MANUAL
+  EMAIL
+}
+
+enum TicketPriority {
+  BAIXA
+  MEDIA
+  ALTA
+  CRITICA
+}
+
+enum TicketEmailIngestionStatus {
+  CRIADO
+  IGNORADO
+  ERRO
+}
+
+enum SolicitacaoCaixaTipo {
+  EMAIL_RECEBIDO
+  COMENTARIO_TICKET
+  RESPOTA_ENVIADA
+  ASSOCIAÇÃO_MANUAL
+}
+
+enum AssistenteChatRole {
+  user
+  assistant
+}
+
+enum DocumentTemplateStatus {
+  RASCUNHO
+  ATIVO
+  ARQUIVADO
+}
+
+enum DocumentoAreaOrigem {
+  INTERNO
+  EXTERNO
+}
+
+enum DocumentoAreaStatus {
+  ATIVO
+  EXCLUIDO
+}
+
+enum DocumentoSearchStatus {
+  PENDENTE
+  PROCESSANDO
+  INDEXADO
+  ERRO
+}
+
+enum DocumentoAuditAction {
+  UPLOAD
+  DOWNLOAD
+  EXCLUSAO
+  RENOMEACAO
+  ALTERACAO
+  ENVIO_EXTERNO
+  SCAN_INICIADO
+  SCAN_LIMPO
+  SCAN_INFECTADO
+  SCAN_ERRO
+}
+
+enum DocumentoScanStatus {
+  PENDENTE
+  PROCESSANDO
+  LIMPO
+  INFECTADO
+  ERRO_SCAN
+}
+
+enum DocumentoExternalRequestStatus {
+  ATIVO
+  EXPIRADO
+  ENVIO_REALIZADO
+  DESATIVADO
+}
+
+model DocumentTemplate {
+  id                  Int                      @id @default(autoincrement())
+  codigo              String                   @unique
+  nome                String
+  descricao           String?
+  tipo                String?
+  conteudo            String?
+  status              DocumentTemplateStatus  @default(RASCUNHO)
+  arquivoPath         String?
+  arquivoNomeOriginal String?
+  arquivoMimeType     String?
+  placeholdersJson    Json?
+  createdByUserId     Int
+  updatedByUserId     Int?
+  createdAt           DateTime                 @default(now())
+  updatedAt           DateTime                 @updatedAt
+  createdByUser       User                     @relation("DocumentTemplateCreatedBy", fields: [createdByUserId], references: [id])
+  updatedByUser       User?                    @relation("DocumentTemplateUpdatedBy", fields: [updatedByUserId], references: [id])
+  versions            DocumentTemplateVersion[]
+  generatedDocuments  DocumentoLog[]
+
+  @@index([status, nome])
+  @@index([tipo, status])
+}
+
+model DocumentTemplateVersion {
+  id              Int                   @id @default(autoincrement())
+  templateId      Int
+  version         Int
+  conteudo        String
+  status          DocumentTemplateStatus
+  createdByUserId Int
+  createdAt       DateTime              @default(now())
+  template        DocumentTemplate      @relation(fields: [templateId], references: [id], onDelete: Cascade)
+  createdByUser   User                   @relation("DocumentTemplateVersionCreatedBy", fields: [createdByUserId], references: [id])
+
+  @@unique([templateId, version])
+  @@index([templateId, createdAt])
+}
+
+model ResponsavelTecnico {
+  id        Int           @id @default(autoincrement())
+  nome      String
+  cpf       String        @unique
+  crea      String
+  cargo     String
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+  documentos DocumentoLog[]
+
+  @@index([nome])
+  @@index([crea])
+}
+
+model DocumentoLog {
+  id                   Int               @id @default(autoincrement())
+  instrumentId         Int
+  templateId           Int
+  responsavelTecnicoId Int?
+  tipoDocumento        String
+  titulo               String
+  urlPdf               String?
+  urlDocx              String?
+  arquivoPdfPath       String?
+  arquivoDocxPath      String?
+  placeholdersJson     Json
+  usuario              String
+  createdByUserId      Int?
+  dataGeracao          DateTime          @default(now())
+  instrument           InstrumentProposal @relation(fields: [instrumentId], references: [id], onDelete: Cascade)
+  template             DocumentTemplate  @relation(fields: [templateId], references: [id], onDelete: Cascade)
+  responsavelTecnico   ResponsavelTecnico? @relation(fields: [responsavelTecnicoId], references: [id])
+  createdByUser        User?              @relation("DocumentoLogCreatedBy", fields: [createdByUserId], references: [id])
+
+  @@index([instrumentId, dataGeracao])
+  @@index([templateId, dataGeracao])
+  @@index([responsavelTecnicoId])
+  @@index([createdByUserId, dataGeracao])
+}
+
+model DocumentoArea {
+  id                   Int                           @id @default(autoincrement())
+  nomeOriginal         String
+  nomeAtual            String
+  arquivoPath          String
+  mimeType             String?
+  tamanho              BigInt
+  origem               DocumentoAreaOrigem           @default(INTERNO)
+  status               DocumentoAreaStatus           @default(ATIVO)
+  instrumentId         Int?
+  conveneteId          Int?
+  uploadedByUserId     Int?
+  uploadedByEmail      String
+  externalRequestId    Int?
+  externalSubmissionId Int?
+  externalSenderNome   String?
+  externalSenderCpf    String?
+  scanStatus           DocumentoScanStatus             @default(LIMPO)
+  scanProvider         String?
+  scanResult           String?
+  scannedAt            DateTime?
+  quarantinePath       String?
+  deletedAt            DateTime?
+  purgedAt             DateTime?
+  createdAt            DateTime                      @default(now())
+  updatedAt            DateTime                      @updatedAt
+  instrument           InstrumentProposal?           @relation(fields: [instrumentId], references: [id], onDelete: SetNull)
+  convenete            Convenete?                    @relation(fields: [conveneteId], references: [id], onDelete: SetNull)
+  uploadedByUser       User?                         @relation("DocumentoAreaUploadedBy", fields: [uploadedByUserId], references: [id], onDelete: SetNull)
+  searchIndex          DocumentoSearchIndex?
+  auditLogs            DocumentoAuditLog[]
+  externalRequest      DocumentoExternalRequest?     @relation(fields: [externalRequestId], references: [id], onDelete: SetNull)
+  externalSubmission   DocumentoExternalSubmission?  @relation(fields: [externalSubmissionId], references: [id], onDelete: SetNull)
+
+  @@index([status, createdAt])
+  @@index([instrumentId, createdAt])
+  @@index([conveneteId, createdAt])
+  @@index([uploadedByUserId, createdAt])
+  @@index([externalRequestId])
+  @@index([scanStatus, createdAt])
+  @@index([status, deletedAt, purgedAt])
+}
+
+model DocumentoSearchIndex {
+  id            Int                    @id @default(autoincrement())
+  documentoId   Int                    @unique
+  textoExtraido String?
+  status        DocumentoSearchStatus  @default(PENDENTE)
+  erro          String?
+  createdAt     DateTime               @default(now())
+  updatedAt     DateTime               @updatedAt
+  documento     DocumentoArea          @relation(fields: [documentoId], references: [id], onDelete: Cascade)
+}
+
+model DocumentoAuditLog {
+  id          Int                  @id @default(autoincrement())
+  documentoId Int?
+  userId      Int?
+  userEmail   String
+  userNome    String?
+  action      DocumentoAuditAction
+  arquivoNome String
+  ip          String?
+  detalhes    Json?
+  createdAt   DateTime             @default(now())
+  documento   DocumentoArea?       @relation(fields: [documentoId], references: [id], onDelete: SetNull)
+  user        User?                @relation("DocumentoAuditLogUser", fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([documentoId, createdAt])
+  @@index([userId, createdAt])
+  @@index([action, createdAt])
+  @@index([createdAt])
+}
+
+model DocumentoExternalRequest {
+  id              Int                            @id @default(autoincrement())
+  token           String                         @unique
+  titulo          String
+  descricao       String?
+  status          DocumentoExternalRequestStatus @default(ATIVO)
+  expiraEm        DateTime?
+  allowResend     Boolean                        @default(false)
+  maxUsos         Int                            @default(1)
+  usosAtuais      Int                            @default(0)
+  createdByUserId Int
+  createdByEmail  String
+  deactivatedAt   DateTime?
+  submittedAt     DateTime?
+  createdAt       DateTime                       @default(now())
+  updatedAt       DateTime                       @updatedAt
+  createdByUser   User                           @relation("DocumentoExternalRequestCreatedBy", fields: [createdByUserId], references: [id])
+  submissions     DocumentoExternalSubmission[]
+  accessLogs      DocumentoExternalAccessLog[]
+  documentos      DocumentoArea[]
+
+  @@index([status, createdAt])
+  @@index([expiraEm])
+  @@index([usosAtuais])
+}
+
+model DocumentoExternalSubmission {
+  id                Int                       @id @default(autoincrement())
+  externalRequestId Int
+  nomeCompleto      String
+  cpf               String
+  ip                String?
+  createdAt         DateTime                  @default(now())
+  externalRequest   DocumentoExternalRequest  @relation(fields: [externalRequestId], references: [id], onDelete: Cascade)
+  documentos        DocumentoArea[]
+
+  @@index([externalRequestId, createdAt])
+  @@index([cpf])
+}
+
+model DocumentoExternalAccessLog {
+  id                Int                       @id @default(autoincrement())
+  externalRequestId Int?
+  token             String
+  nomeCompleto      String?
+  cpf               String?
+  ip                String?
+  evento            String
+  createdAt         DateTime                  @default(now())
+  externalRequest   DocumentoExternalRequest? @relation(fields: [externalRequestId], references: [id], onDelete: SetNull)
+
+  @@index([externalRequestId, createdAt])
+  @@index([token, createdAt])
+}

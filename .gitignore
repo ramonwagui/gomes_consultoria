@@ -1,0 +1,14 @@
+node_modules/
+dist/
+.env
+*.db
+*.db-journal
+npm-debug.log*
+uploads/
+transferegov-debug.html
+
+# Arquivos com nomes reservados do Windows (dispositivos do sistema)
+nul
+con
+aux
+prn

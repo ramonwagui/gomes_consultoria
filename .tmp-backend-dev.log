@@ -1,0 +1,178 @@
+
+> gestconv360@0.1.0 dev
+> tsx watch src/server.ts
+
+[boot] Node.js process starting - L1 check
+[server] Preparando inicialização do ambiente...
+[server] Background jobs desativados (ENABLE_BACKGROUND_JOBS != true).
+[server] Gestconv360 API ONLINE em http://0.0.0.0:3000
+[server] Verificação de saúde disponível em: /health
+[0mGET /health [32m200[0m 1.871 ms - 143[0m
+[server] Heartbeat: Up for 65s | Memory: 205MB
+[server] Heartbeat: Up for 125s | Memory: 205MB
+[0mGET /health [32m200[0m 0.685 ms - 144[0m
+[0mGET /api/v1/instrumentos?ativo=false&sync_repasses_desembolsos=false [36m304[0m 2101.143 ms - -[0m
+[0mGET /api/v1/instrumentos?ativo=true&sync_repasses_desembolsos=false [36m304[0m 2286.262 ms - -[0m
+[0mGET /health [32m200[0m 0.411 ms - 144[0m
+[0mGET /api/v1/usuarios/avatar/34?v=1778286605869 [33m404[0m 2394.307 ms - 36[0m
+[0mGET /api/v1/auditoria?limite=150 [36m304[0m 2863.426 ms - -[0m
+[0mGET /api/v1/usuarios/me [36m304[0m 767.223 ms - -[0m
+[0mGET /api/v1/instrumentos?ativo=false&sync_repasses_desembolsos=false [36m304[0m 502.399 ms - -[0m
+[0mGET /api/v1/proponentes [36m304[0m 392.853 ms - -[0m
+[0mGET /api/v1/instrumentos/alerts/deadlines?limite_dias=30 [36m304[0m 3803.266 ms - -[0m
+[0mGET /api/v1/auditoria?limite=150 [36m304[0m 528.303 ms - -[0m
+[0mGET /api/v1/instrumentos?ativo=false&sync_repasses_desembolsos=false [36m304[0m 259.199 ms - -[0m
+[0mGET /api/v1/proponentes [36m304[0m 334.367 ms - -[0m
+[0mGET /api/v1/usuarios/me [36m304[0m 614.874 ms - -[0m
+[0mGET /api/v1/tickets [36m304[0m 4429.461 ms - -[0m
+[0mGET /api/v1/instrumentos?ativo=true&sync_repasses_desembolsos=false [36m304[0m 1772.187 ms - -[0m
+[0mGET /api/v1/relatorios/obras?ativo=true [36m304[0m 2418.465 ms - -[0m
+[0mGET /api/v1/instrumentos?ativo=false&sync_repasses_desembolsos=false [36m304[0m 293.107 ms - -[0m
+[0mGET /api/v1/documentos?limite=100 [32m200[0m 2004.683 ms - 13189[0m
+[0mGET /api/v1/proponentes [36m304[0m 330.149 ms - -[0m
+[0mGET /api/v1/instrumentos/alerts/deadlines?limite_dias=30 [36m304[0m 1063.430 ms - -[0m
+[0mGET /api/v1/instrumentos?ativo=true&sync_repasses_desembolsos=false [36m304[0m 992.887 ms - -[0m
+[0mGET /api/v1/tickets [36m304[0m 1712.864 ms - -[0m
+[0mGET /api/v1/usuarios [36m304[0m 910.622 ms - -[0m
+[0mGET /api/v1/instrumentos?ativo=true&sync_repasses_desembolsos=false [36m304[0m 843.472 ms - -[0m
+[0mGET /api/v1/proponentes [36m304[0m 187.181 ms - -[0m
+[0mGET /api/v1/tickets/assignable-users [36m304[0m 438.546 ms - -[0m
+[0mGET /api/v1/documentos?limite=100 [36m304[0m 1832.412 ms - -[0m
+[0mGET /api/v1/instrumentos?ativo=true&sync_repasses_desembolsos=false [36m304[0m 898.538 ms - -[0m
+[0mGET /api/v1/tickets-email/status [32m200[0m 2627.285 ms - 336949[0m
+[0mGET /api/v1/relatorios/obras?ativo=true [36m304[0m 2845.860 ms - -[0m
+[0mGET /api/v1/usuarios [36m304[0m 1040.689 ms - -[0m
+[0mGET /api/v1/pagamentos [36m304[0m 1172.729 ms - -[0m
+[0mGET /api/v1/tickets/assignable-users [36m304[0m 388.905 ms - -[0m
+[0mGET /api/v1/pagamentos/instrumentos [36m304[0m 2356.569 ms - -[0m
+[0mGET /api/v1/documentos?limite=100 [36m304[0m 1804.207 ms - -[0m
+[0mGET /api/v1/instrumentos?ativo=true&sync_repasses_desembolsos=false [36m304[0m 1745.227 ms - -[0m
+[0mGET /api/v1/pagamentos [36m304[0m 1118.155 ms - -[0m
+[0mGET /api/v1/tickets-email/status [32m200[0m 1713.716 ms - 336949[0m
+[0mGET /api/v1/pagamentos/instrumentos [36m304[0m 2376.547 ms - -[0m
+[server] Heartbeat: Up for 185s | Memory: 844MB
+[0mPOST /api/v1/documentos/upload [32m201[0m 12988.347 ms - 642[0m
+[0mGET /api/v1/documentos?limite=100 [32m200[0m 909.904 ms - 13820[0m
+[0mGET /api/v1/documentos/31/download [33m409[0m 639.981 ms - 90[0m
+[0mGET /api/v1/documentos/31/download [33m409[0m 515.321 ms - 90[0m
+[0mGET /health [32m200[0m 0.589 ms - 144[0m
+[0mGET /api/v1/usuarios/avatar/34?v=1778286605869 [33m404[0m 257.445 ms - 36[0m
+[0mGET /api/v1/instrumentos?ativo=false&sync_repasses_desembolsos=false [36m304[0m 258.998 ms - -[0m
+[0mGET /health [32m200[0m 0.639 ms - 144[0m
+[0mGET /api/v1/usuarios/me [36m304[0m 262.131 ms - -[0m
+[0mGET /api/v1/instrumentos?ativo=false&sync_repasses_desembolsos=false [36m304[0m 141.068 ms - -[0m
+[0mGET /api/v1/auditoria?limite=150 [36m304[0m 928.822 ms - -[0m
+[0mGET /api/v1/proponentes [36m304[0m 344.771 ms - -[0m
+[0mGET /api/v1/instrumentos/alerts/deadlines?limite_dias=30 [36m304[0m 1341.914 ms - -[0m
+[0mGET /api/v1/instrumentos?ativo=false&sync_repasses_desembolsos=false [36m304[0m 134.007 ms - -[0m
+[0mGET /api/v1/documentos?limite=100 [36m304[0m 1040.378 ms - -[0m
+[0mGET /api/v1/usuarios/me [36m304[0m 522.090 ms - -[0m
+[0mGET /api/v1/proponentes [36m304[0m 297.161 ms - -[0m
+[0mGET /api/v1/auditoria?limite=150 [36m304[0m 488.112 ms - -[0m
+[0mGET /api/v1/tickets [36m304[0m 1984.455 ms - -[0m
+[0mGET /api/v1/instrumentos?ativo=true&sync_repasses_desembolsos=false [36m304[0m 2046.623 ms - -[0m
+[0mGET /api/v1/instrumentos?ativo=false&sync_repasses_desembolsos=false [36m304[0m 139.396 ms - -[0m
+[0mGET /api/v1/relatorios/obras?ativo=true [36m304[0m 2706.016 ms - -[0m
+[0mGET /api/v1/instrumentos/alerts/deadlines?limite_dias=30 [36m304[0m 1239.613 ms - -[0m
+[0mGET /api/v1/instrumentos?ativo=true&sync_repasses_desembolsos=false [36m304[0m 1219.857 ms - -[0m
+[0mGET /api/v1/proponentes [36m304[0m 202.614 ms - -[0m
+[0mGET /api/v1/tickets [36m304[0m 1856.508 ms - -[0m
+[0mGET /api/v1/documentos?limite=100 [36m304[0m 1909.606 ms - -[0m
+[0mGET /api/v1/instrumentos?ativo=true&sync_repasses_desembolsos=false [36m304[0m 901.630 ms - -[0m
+[0mGET /api/v1/usuarios [36m304[0m 1132.115 ms - -[0m
+[0mGET /api/v1/relatorios/obras?ativo=true [36m304[0m 1708.535 ms - -[0m
+[0mGET /api/v1/documentos?limite=100 [36m304[0m 825.428 ms - -[0m
+[0mGET /api/v1/tickets/assignable-users [36m304[0m 293.903 ms - -[0m
+[0mGET /api/v1/instrumentos?ativo=true&sync_repasses_desembolsos=false [36m304[0m 903.801 ms - -[0m
+[0mGET /api/v1/tickets-email/status [32m200[0m 2264.758 ms - 336949[0m
+[0mGET /api/v1/proponentes [36m304[0m 274.701 ms - -[0m
+[0mGET /api/v1/pagamentos [36m304[0m 1141.214 ms - -[0m
+[0mGET /api/v1/documentos/30/download [32m200[0m 2106.457 ms - 388157[0m
+[0mGET /api/v1/instrumentos?ativo=true&sync_repasses_desembolsos=false [36m304[0m 1134.896 ms - -[0m
+[0mGET /api/v1/usuarios [36m304[0m 1200.714 ms - -[0m
+[0mGET /api/v1/tickets-email/status [32m200[0m 1506.528 ms - 336949[0m
+[0mGET /api/v1/tickets/assignable-users [36m304[0m 308.338 ms - -[0m
+[0mGET /api/v1/instrumentos?ativo=true&sync_repasses_desembolsos=false [36m304[0m 910.777 ms - -[0m
+[0mGET /api/v1/pagamentos/instrumentos [36m304[0m 2833.029 ms - -[0m
+[0mGET /api/v1/pagamentos [36m304[0m 918.044 ms - -[0m
+[0mGET /api/v1/pagamentos/instrumentos [36m304[0m 1817.603 ms - -[0m
+[0mGET /api/v1/documentos/31/download [33m409[0m 778.126 ms - 90[0m
+[server] Heartbeat: Up for 245s | Memory: 911MB
+[0mGET /api/v1/documentos/29/download [32m200[0m 2176.605 ms - 437448[0m
+[0mGET /api/v1/documentos/27/download [32m200[0m 1769.821 ms - 528844[0m
+[server] Heartbeat: Up for 305s | Memory: 643MB
+[0mGET /api/v1/instrumentos?ativo=false&sync_repasses_desembolsos=false [36m304[0m 267.555 ms - -[0m
+[0mGET /api/v1/proponentes [36m304[0m 371.868 ms - -[0m
+[0mGET /api/v1/instrumentos?ativo=true&sync_repasses_desembolsos=false [36m304[0m 1615.849 ms - -[0m
+[0mGET /api/v1/documentos?limite=100 [36m304[0m 1981.865 ms - -[0m
+[0mGET /api/v1/documentos?limite=100 [36m304[0m 888.425 ms - -[0m
+[server] Heartbeat: Up for 365s | Memory: 482MB
+[0mGET /health [32m200[0m 0.440 ms - 144[0m
+[0mGET /health [32m200[0m 0.169 ms - 144[0m
+[0mGET /api/v1/instrumentos?ativo=false&sync_repasses_desembolsos=false [36m304[0m 258.701 ms - -[0m
+[0mGET /api/v1/usuarios/avatar/34?v=1778286605869 [33m404[0m 380.812 ms - 36[0m
+[0mGET /api/v1/usuarios/me [36m304[0m 264.872 ms - -[0m
+[0mGET /api/v1/auditoria?limite=150 [36m304[0m 736.048 ms - -[0m
+[0mGET /api/v1/instrumentos?ativo=false&sync_repasses_desembolsos=false [36m304[0m 200.046 ms - -[0m
+[0mGET /api/v1/proponentes [36m304[0m 256.893 ms - -[0m
+[0mGET /api/v1/tickets [36m304[0m 1381.710 ms - -[0m
+[0mGET /api/v1/instrumentos?ativo=true&sync_repasses_desembolsos=false [36m304[0m 1530.858 ms - -[0m
+[0mGET /api/v1/usuarios/me [36m304[0m 541.261 ms - -[0m
+[0mGET /api/v1/instrumentos?ativo=false&sync_repasses_desembolsos=false [36m304[0m 131.892 ms - -[0m
+[0mGET /api/v1/proponentes [36m304[0m 171.040 ms - -[0m
+[0mGET /api/v1/instrumentos/alerts/deadlines?limite_dias=30 [36m304[0m 1811.958 ms - -[0m
+[0mGET /api/v1/auditoria?limite=150 [36m304[0m 421.442 ms - -[0m
+[0mGET /api/v1/documentos?limite=100 [36m304[0m 1150.792 ms - -[0m
+[0mGET /api/v1/instrumentos?ativo=false&sync_repasses_desembolsos=false [36m304[0m 180.202 ms - -[0m
+[0mGET /api/v1/tickets [36m304[0m 917.658 ms - -[0m
+[0mGET /api/v1/instrumentos?ativo=true&sync_repasses_desembolsos=false [36m304[0m 1064.086 ms - -[0m
+[0mGET /api/v1/documentos?limite=100 [36m304[0m 896.711 ms - -[0m
+[0mGET /api/v1/proponentes [36m304[0m 128.471 ms - -[0m
+[0mGET /api/v1/instrumentos/alerts/deadlines?limite_dias=30 [36m304[0m 1210.027 ms - -[0m
+[0mGET /api/v1/usuarios [36m304[0m 613.808 ms - -[0m
+[0mGET /api/v1/instrumentos?ativo=true&sync_repasses_desembolsos=false [36m304[0m 889.796 ms - -[0m
+[0mGET /api/v1/documentos?limite=100 [36m304[0m 901.884 ms - -[0m
+[0mGET /api/v1/tickets/assignable-users [36m304[0m 144.574 ms - -[0m
+[0mGET /api/v1/pagamentos [36m304[0m 621.423 ms - -[0m
+[0mGET /api/v1/instrumentos?ativo=true&sync_repasses_desembolsos=false [36m304[0m 798.695 ms - -[0m
+[0mGET /api/v1/proponentes [36m304[0m 174.223 ms - -[0m
+[0mGET /api/v1/instrumentos?ativo=true&sync_repasses_desembolsos=false [36m304[0m 644.228 ms - -[0m
+[0mGET /api/v1/usuarios [36m304[0m 454.374 ms - -[0m
+[0mGET /api/v1/relatorios/obras?ativo=true [36m304[0m 5211.401 ms - -[0m
+[0mGET /api/v1/tickets/assignable-users [36m304[0m 220.188 ms - -[0m
+[0mGET /api/v1/documentos/31/download [33m409[0m 490.562 ms - 90[0m
+[0mGET /api/v1/instrumentos?ativo=true&sync_repasses_desembolsos=false [36m304[0m 706.465 ms - -[0m
+[0mGET /api/v1/pagamentos/instrumentos [36m304[0m 2829.882 ms - -[0m
+[0mGET /api/v1/pagamentos [36m304[0m 1251.434 ms - -[0m
+[0mGET /api/v1/relatorios/obras?ativo=true [36m304[0m 2065.016 ms - -[0m
+[0mGET /api/v1/tickets-email/status [32m200[0m 2407.306 ms - 336949[0m
+[0mGET /api/v1/pagamentos/instrumentos [36m304[0m 2017.045 ms - -[0m
+[0mGET /api/v1/tickets-email/status [32m200[0m 1415.396 ms - 336949[0m
+[server] Heartbeat: Up for 425s | Memory: 610MB
+[0mDELETE /api/v1/documentos/31 [32m204[0m 1625.026 ms - -[0m
+[0mGET /api/v1/documentos?limite=100 [32m200[0m 1128.451 ms - 13189[0m
+[0mPOST /api/v1/documentos/upload [32m201[0m 8928.856 ms - 728[0m
+[0mGET /api/v1/documentos?limite=100 [32m200[0m 880.047 ms - 13906[0m
+[0mGET /api/v1/documentos/32/download [33m409[0m 380.286 ms - 90[0m
+[server] Heartbeat: Up for 485s | Memory: 475MB
+[0mGET /api/v1/documentos?limite=100 [33m401[0m 0.418 ms - 40[0m
+[0mGET /api/v1/proponentes [33m401[0m 0.257 ms - 40[0m
+[0mGET /api/v1/instrumentos?ativo=true&sync_repasses_desembolsos=false [33m401[0m 0.145 ms - 40[0m
+[0mGET /api/v1/instrumentos?ativo=false&sync_repasses_desembolsos=false [33m401[0m 0.253 ms - 40[0m
+[0mGET /api/v1/documentos?limite=100 [33m401[0m 0.279 ms - 40[0m
+[0mPOST /api/v1/auth/refresh [32m204[0m 8243.841 ms - -[0m
+[0mGET /api/v1/proponentes [36m304[0m 1298.465 ms - -[0m
+[0mGET /api/v1/instrumentos?ativo=false&sync_repasses_desembolsos=false [36m304[0m 1297.003 ms - -[0m
+[0mGET /api/v1/documentos?limite=100 [36m304[0m 2001.703 ms - -[0m
+[0mGET /api/v1/instrumentos?ativo=true&sync_repasses_desembolsos=false [36m304[0m 3032.282 ms - -[0m
+[0mGET /api/v1/documentos?limite=100 [36m304[0m 1062.753 ms - -[0m
+[server] Heartbeat: Up for 545s | Memory: 488MB
+[0mGET /api/v1/documentos/32/download [33m409[0m 754.897 ms - 90[0m
+[server] Heartbeat: Up for 605s | Memory: 489MB
+[server] Heartbeat: Up for 665s | Memory: 489MB
+10:22:05 [tsx] change in ./src\server.ts Restarting...
+c[boot] Node.js process starting - L1 check
+[server] Preparando inicialização do ambiente...
+[server] Background jobs desativados (ENABLE_BACKGROUND_JOBS != true).
+[server] Gestconv360 API ONLINE em http://0.0.0.0:3000
+[server] Verificação de saúde disponível em: /health

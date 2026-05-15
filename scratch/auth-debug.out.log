@@ -1,0 +1,17 @@
+
+> gestconv360@0.1.0 dev
+> tsx watch src/server.ts
+
+[boot] Node.js process starting - L1 check
+[server] Preparando inicialização do ambiente...
+[server] Background jobs desativados (ENABLE_BACKGROUND_JOBS != true).
+[server] Gestconv360 API ONLINE em http://0.0.0.0:3000
+[server] Verificação de saúde disponível em: /health
+[0mPOST /api/v1/auth/login [33m422[0m 3.538 ms - 99[0m
+[0mGET /api/v1/usuarios/me [33m401[0m 1.372 ms - 40[0m
+[0mPOST /api/v1/auth/login [32m200[0m 2111.868 ms - 103[0m
+[0mGET /api/v1/usuarios/me [32m200[0m 438.197 ms - 191[0m
+[server] Heartbeat: Up for 65s | Memory: 207MB
+[0mPOST /api/v1/auth/login [32m200[0m 445.497 ms - 103[0m
+[0mGET /api/v1/usuarios/me [32m200[0m 219.731 ms - 191[0m
+[server] Heartbeat: Up for 125s | Memory: 207MB

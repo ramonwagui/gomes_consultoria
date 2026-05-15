@@ -1,0 +1,110 @@
+Gestconv360 API running on http://localhost:3000
+[tickets-email] ciclo concluido {
+  processed: 20,
+  created: 0,
+  ignored: 0,
+  errors: 0,
+  skippedAlreadyIngested: 20
+}
+[0mGET /health [32m200[0m 9.291 ms - 72[0m
+[0mGET /health [32m200[0m 0.686 ms - 72[0m
+[0mGET /api/v1/instrumentos/alerts/deadlines?limite_dias=30 [36m304[0m 81.988 ms - -[0m
+[0mGET /api/v1/usuarios/me [36m304[0m 16.007 ms - -[0m
+[0mGET /api/v1/auditoria?limite=150 [36m304[0m 16.790 ms - -[0m
+[0mGET /api/v1/instrumentos?ativo=false [36m304[0m 50.608 ms - -[0m
+[0mGET /api/v1/tickets [36m304[0m 27.851 ms - -[0m
+[0mGET /api/v1/relatorios/repasses?convenete_id=1 [33m404[0m 30.231 ms - 39[0m
+[0mGET /api/v1/instrumentos/alerts/deadlines?limite_dias=30 [36m304[0m 24.821 ms - -[0m
+[0mGET /api/v1/instrumentos?ativo=true [36m304[0m 55.303 ms - -[0m
+[0mGET /api/v1/usuarios/me [36m304[0m 10.943 ms - -[0m
+[0mGET /api/v1/auditoria?limite=150 [36m304[0m 16.182 ms - -[0m
+[0mGET /api/v1/instrumentos?ativo=false [36m304[0m 17.230 ms - -[0m
+[0mGET /api/v1/tickets [36m304[0m 16.237 ms - -[0m
+[0mGET /api/v1/relatorios/repasses?convenete_id=1 [33m404[0m 2.702 ms - 39[0m
+[0mGET /api/v1/instrumentos?ativo=true [36m304[0m 4.037 ms - -[0m
+[0mGET /api/v1/instrumentos?ativo=true [36m304[0m 4.108 ms - -[0m
+[0mGET /api/v1/convenetes [36m304[0m 2.650 ms - -[0m
+[0mGET /api/v1/instrumentos?ativo=true [36m304[0m 5.037 ms - -[0m
+[0mGET /api/v1/usuarios [36m304[0m 5.758 ms - -[0m
+[0mGET /api/v1/convenetes [36m304[0m 5.252 ms - -[0m
+[0mGET /api/v1/tickets/assignable-users [36m304[0m 7.611 ms - -[0m
+[0mGET /api/v1/usuarios [36m304[0m 4.124 ms - -[0m
+[0mGET /api/v1/tickets/assignable-users [36m304[0m 2.367 ms - -[0m
+[0mGET /api/v1/documents [36m304[0m 146.053 ms - -[0m
+[0mGET /api/v1/certificates [36m304[0m 151.767 ms - -[0m
+[0mGET /api/v1/documents [36m304[0m 6.084 ms - -[0m
+[0mPOST /api/v1/documents/2/ask [32m200[0m 48.198 ms - 581[0m
+[tickets-email] ciclo concluido {
+  processed: 20,
+  created: 0,
+  ignored: 0,
+  errors: 0,
+  skippedAlreadyIngested: 20
+}
+[0mPOST /api/v1/documents/2/classify [32m200[0m 804.409 ms - 54[0m
+[0mGET /api/v1/documents [36m304[0m 6.570 ms - -[0m
+[0mPOST /api/v1/documents/2/classify [32m200[0m 23.640 ms - 54[0m
+[0mGET /api/v1/documents [36m304[0m 3.449 ms - -[0m
+[tickets-email] ciclo concluido {
+  processed: 20,
+  created: 0,
+  ignored: 0,
+  errors: 0,
+  skippedAlreadyIngested: 20
+}
+[tickets-email] ciclo concluido {
+  processed: 20,
+  created: 0,
+  ignored: 0,
+  errors: 0,
+  skippedAlreadyIngested: 20
+}
+[0mGET /health [32m200[0m 0.490 ms - 72[0m
+[0mGET /api/v1/instrumentos?ativo=false [36m304[0m 11.651 ms - -[0m
+[0mGET /api/v1/auditoria?limite=150 [36m304[0m 18.991 ms - -[0m
+[0mGET /api/v1/instrumentos?ativo=true [36m304[0m 30.045 ms - -[0m
+[0mGET /api/v1/usuarios/me [36m304[0m 5.521 ms - -[0m
+[0mGET /api/v1/instrumentos/alerts/deadlines?limite_dias=30 [36m304[0m 22.096 ms - -[0m
+[0mGET /health [32m200[0m 0.434 ms - 72[0m
+[0mGET /api/v1/tickets [36m304[0m 80.449 ms - -[0m
+[0mGET /api/v1/usuarios/me [36m304[0m 15.527 ms - -[0m
+[0mGET /api/v1/auditoria?limite=150 [36m304[0m 58.116 ms - -[0m
+[0mGET /api/v1/instrumentos/alerts/deadlines?limite_dias=30 [36m304[0m 22.267 ms - -[0m
+[0mGET /api/v1/instrumentos?ativo=true [36m304[0m 66.211 ms - -[0m
+[0mGET /api/v1/relatorios/repasses?convenete_id=1 [33m404[0m 2.805 ms - 39[0m
+[0mGET /api/v1/instrumentos?ativo=false [36m304[0m 82.006 ms - -[0m
+[0mGET /api/v1/tickets [36m304[0m 9.236 ms - -[0m
+[0mGET /api/v1/instrumentos?ativo=true [36m304[0m 8.468 ms - -[0m
+[0mGET /api/v1/relatorios/repasses?convenete_id=1 [33m404[0m 4.770 ms - 39[0m
+[0mGET /api/v1/convenetes [36m304[0m 7.575 ms - -[0m
+[0mGET /api/v1/instrumentos?ativo=true [36m304[0m 9.061 ms - -[0m
+[0mGET /api/v1/usuarios [36m304[0m 7.884 ms - -[0m
+[0mGET /api/v1/convenetes [36m304[0m 3.150 ms - -[0m
+[0mGET /api/v1/tickets/assignable-users [36m304[0m 8.284 ms - -[0m
+[0mGET /api/v1/usuarios [36m304[0m 3.669 ms - -[0m
+[0mGET /api/v1/tickets/assignable-users [36m304[0m 5.671 ms - -[0m
+[0mGET /api/v1/certificates [36m304[0m 4.606 ms - -[0m
+[0mGET /api/v1/documents [32m200[0m 11.201 ms - 1658[0m
+[0mGET /api/v1/documents [36m304[0m 8.909 ms - -[0m
+[0mGET /api/v1/certificates/ativos [32m200[0m 24.601 ms - 2[0m
+[tickets-email] ciclo concluido {
+  processed: 20,
+  created: 0,
+  ignored: 0,
+  errors: 0,
+  skippedAlreadyIngested: 20
+}
+[tickets-email] ciclo concluido {
+  processed: 20,
+  created: 0,
+  ignored: 0,
+  errors: 0,
+  skippedAlreadyIngested: 20
+}
+[tickets-email] ciclo concluido {
+  processed: 20,
+  created: 0,
+  ignored: 0,
+  errors: 0,
+  skippedAlreadyIngested: 20
+}

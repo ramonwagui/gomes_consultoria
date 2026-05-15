@@ -1,0 +1,18 @@
+version: "3.9"
+
+services:
+  pgvector:
+    image: pgvector/pgvector:pg16
+    container_name: gestconv360-pgvector
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: gestconv360_ai
+    ports:
+      - "5433:5432"
+    volumes:
+      - pgvector_data:/var/lib/postgresql/data
+
+volumes:
+  pgvector_data:
